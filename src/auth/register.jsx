@@ -85,13 +85,7 @@ function RegisterPage() {
 
         }
         //password
-        let passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,12}$/
-        if (
-            !passwordPattern.test(newUser.password)
-        ) {
-            return "Password Should be at least 8 characters & maximum 12 and contains at least one number one uppercase and lowercase 😅"
-
-        }
+       
         //rpassword and password should be much 
         if (newUser.password !== newUser.rPassword) return "The Repeated Password should match the Password "
 
