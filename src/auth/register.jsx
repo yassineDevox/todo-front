@@ -1,4 +1,4 @@
-import  Axios from 'axios'
+import Axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import "./../styles/auth.css"
@@ -51,13 +51,15 @@ function RegisterPage() {
         //disable the refresh after submit 
         e.preventDefault()
         //validate data 
-        setErrorMsg(validateRegisterData(userInput))
+        let errorMSG = validateRegisterData(userInput)
+    
         //send data & get response from the server
-        if(errorMsg=="")
-        Axios.post('http://localhost:9000/users/register',userInput)
-        .then(data=>console.log(data))
-        .catch(err=>console.log(err))
-
+        if (errorMSG=="")
+            Axios.post('http://localhost:9000/api/users/register', userInput)
+            .then(data => console.log(data))
+            .catch(err => setErrorMsg(err?.response?.data?.message))
+        else
+            setErrorMsg(errorMSG)
     }
 
     //validate data 
@@ -76,7 +78,8 @@ function RegisterPage() {
 
         }
         //username
-        let emailPattern = /^.{4,30}$/
+        let emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/
+
         if (!emailPattern.test(newUser.email)) {
             return "email Should be at least 4 characters & maximum 30 😅"
 
@@ -86,7 +89,7 @@ function RegisterPage() {
         if (
             !passwordPattern.test(newUser.password)
         ) {
-            return "Password Should be at least 8 characters & maximum 12 and contains at least one number one uppercase and lowercase😅"
+            return "Password Should be at least 8 characters & maximum 12 and contains at least one number one uppercase and lowercase 😅"
 
         }
         //rpassword and password should be much 
@@ -120,7 +123,7 @@ function RegisterPage() {
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">
-                                        <i className={errorMsg.includes("FirstName") == "" ? "fas fa-user" : "fas fa-user text-danger"}>
+                                        <i className={errorMsg?.includes("FirstName") == "" ? "fas fa-user" : "fas fa-user text-danger"}>
                                         </i>
                                     </span>
                                 </div>
@@ -136,7 +139,7 @@ function RegisterPage() {
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">
-                                        <i className={errorMsg.includes("LastName") == "" ? "fas fa-user" : "fas fa-user text-danger"}></i>
+                                        <i className={errorMsg?.includes("LastName") == "" ? "fas fa-user" : "fas fa-user text-danger"}></i>
                                     </span>
                                 </div>
                                 <input onFocus={() => setErrorMsg("")}
@@ -148,11 +151,12 @@ function RegisterPage() {
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">
-                                        <i className={errorMsg.includes("Email") == "" ? "fas fa-at" : "fas fa-at text-danger"} ></i>
+                                        <i className={errorMsg?.includes("Email") == "" ? "fas fa-at" : "fas fa-at text-danger"} ></i>
                                     </span>
                                 </div>
                                 <input onFocus={() => setErrorMsg("")}
-                                    onChange={handleChangeInput} name="email"
+                                    onChange={handleChangeInput}
+                                    name="email"
                                     type="text"
                                     className="form-control"
                                     placeholder="Email" />
@@ -160,7 +164,7 @@ function RegisterPage() {
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">
-                                        <i className={errorMsg.includes("Password") == "" ? "fas fa-key" : "fas fa-key text-danger"} ></i></span>
+                                        <i className={errorMsg?.includes("Password") == "" ? "fas fa-key" : "fas fa-key text-danger"} ></i></span>
                                 </div>
                                 <input
                                     onFocus={() => setErrorMsg("")}
@@ -172,7 +176,7 @@ function RegisterPage() {
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">
-                                        <i className={errorMsg.includes("Repeated Password") == "" ? "fas fa-key" : "fas fa-key text-danger"}></i></span>
+                                        <i className={errorMsg?.includes("Repeated Password") == "" ? "fas fa-key" : "fas fa-key text-danger"}></i></span>
                                 </div>
                                 <input
                                     onFocus={() => setErrorMsg("")}
