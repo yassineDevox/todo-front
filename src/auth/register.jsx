@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import useCdn from '../hooks/use.cdn'
 import "./../styles/auth.css"
 
 const cssCDN = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -19,16 +20,7 @@ class UserInput {
 
 function RegisterPage() {
 
-    useEffect(() => {
-        let _headContent = document.querySelector("head").innerHTML
-
-        document.querySelector("head").innerHTML =
-            `<link  rel="stylesheet" href=${cssCDN} />` + _headContent
-
-        return () => document.querySelector("head link:first-child").remove()
-
-    }, [])
-
+    useCdn(cssCDN)
 
     // state user input
     const [userInput, setUserInput] = useState(new UserInput())
@@ -190,7 +182,7 @@ function RegisterPage() {
                     </div>
                     <div className="card-footer">
                         <div className="d-flex justify-content-center links">
-                            Already have an account ? <Link to="/">   Sign In </Link>
+                            Already have an account ? <Link to="/login">   Sign In </Link>
                         </div>
                     </div>
                 </div>
