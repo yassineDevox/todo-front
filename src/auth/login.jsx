@@ -48,10 +48,10 @@ function LoginPage() {
     let validateLoginData = (loginInput) => {
         let { password, email } = loginInput
         if (password == "" || email == "")
-            return "Email and Password Are required "
+            return "Email and Password Are required 😅"
 
         let emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/
-        if (!emailPattern.test(newUser.email)) {
+        if (!emailPattern.test(email)) {
             return "Please Enter a valid Email Address 😅"
 
         }
@@ -59,7 +59,7 @@ function LoginPage() {
     }
 
     return (
-        <div className="container m-5">
+        <div className="container mt-5">
             <div className="d-flex justify-content-center h-100">
                 <div className="card">
                     <div className="card-header">
@@ -71,6 +71,11 @@ function LoginPage() {
                         </div>
                     </div>
                     <div className="card-body">
+                         {/* ERROR MSG PART  */}
+                         <div className={errorMsg == "" ? "d-none" : "alert alert-danger"}>
+                            {errorMsg}
+                        </div>
+                        {/* FORM PART  */}
                         <form onSubmit={handleLoginSubmit}>
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
@@ -80,6 +85,7 @@ function LoginPage() {
                                 </div>
                                 <input
 
+                                    onFocus={()=>setErrorMsg("")}
                                     type="text"
                                     className="form-control"
                                     placeholder="Email"
@@ -91,6 +97,7 @@ function LoginPage() {
                                     <span className="input-group-text"><i className="fas fa-key" ></i></span>
                                 </div>
                                 <input
+                                onFocus={()=>setErrorMsg("")}
                                     type="password"
                                     className="form-control"
                                     placeholder="password"
@@ -107,11 +114,11 @@ function LoginPage() {
                     </div>
                     <div className="card-footer">
                         <div className="d-flex justify-content-center links">
-                            Don't have an account ? <Link to="/register"><a>Sign Up</a></Link>
+                            Don't have an account ? <Link to="/register">Sign Up</Link>
                         </div>
                         <div className="d-flex justify-content-center">
                             <Link to="/forget-pass">
-                                <a>Forgot your password?</a>
+                                Forgot your password?
                             </Link>
                         </div>
                     </div>

@@ -43,13 +43,13 @@ function RegisterPage() {
         //disable the refresh after submit 
         e.preventDefault()
         //validate data 
-        let errorMSG = validateRegisterData(userInput)
-    
-        //send data & get response from the server
+        //let errorMSG = validateRegisterData(userInput)
+            //send data & get response from the server
+            let errorMSG=""
         if (errorMSG=="")
-            Axios.post('http://localhost:9000/api/users/register', userInput)
+            Axios.post('http://localhost:9000/api/auth/register', userInput)
             .then(data => console.log(data))
-            .catch(err => setErrorMsg(err?.response?.data?.message))
+            .catch(err =>  setErrorMsg(err?.response?.data?.message))
         else
             setErrorMsg(errorMSG)
     }
@@ -58,6 +58,7 @@ function RegisterPage() {
 
     let validateRegisterData = (newUser = new UserInput()) => {
 
+        console.log(newUser);
         //firstname
         let firstnamePattern = /^.{4,12}$/
         if (!firstnamePattern.test(newUser.firstName)) {
@@ -69,7 +70,7 @@ function RegisterPage() {
             return "LastName Should be at least 4 characters & maximum 12 😅"
 
         }
-        //username
+        //email
         let emailPattern = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/
 
         if (!emailPattern.test(newUser.email)) {
@@ -77,7 +78,11 @@ function RegisterPage() {
 
         }
         //password
-       
+        let passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,12}$/;
+        if (!passwordPattern.test(newUser.password)) {
+            return "invalid password 😅"
+
+        }
         //rpassword and password should be much 
         if (newUser.password !== newUser.rPassword) return "The Repeated Password should match the Password "
 
@@ -86,7 +91,7 @@ function RegisterPage() {
 
 
     return (
-        <div className="container m-5">
+        <div className="container mt-5">
             <div className="d-flex justify-content-center h-100">
                 <div className="card">
                     <div className="card-header">
